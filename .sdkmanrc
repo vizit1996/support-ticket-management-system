@@ -1,0 +1,2 @@
+# Java 21 is required by Spring Boot 3 and backend/pom.xml.
+java=21.0.12-amzn

@@ -1,0 +1,55 @@
+---
+description: REST /api/v1, RFC 7807 errors, HTTP 200/201/400/422
+globs: "**/*Controller.java,**/*Exception*.java,**/api/**/*.ts,**/app/api/**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# API Standards
+
+All public HTTP APIs are versioned under **`/api/v1`**. Spring controllers use `@RequestMapping("/api/v1/...")`. Next.js/React clients call that prefix only (no unversioned `/api` resources).
+
+## HTTP status
+
+| Outcome | Status |
+| --- | --- |
+| Successful read or update with body | **200 OK** |
+| Successful create | **201 Created** + `Location` when a new resource URI exists |
+| Malformed request / Bean Validation | **400 Bad Request** |
+| Semantically invalid state (illegal transition, not mutable) | **422 Unprocessable Entity** |
+| Missing resource | **404 Not Found** |
+
+Do not use **200** for creates. Do not use **500** for validation or domain-state errors the client can fix.
+
+```java
+// ❌ BAD — create implied 200
+@PostMapping("/tickets")
+public TicketResponse create(@RequestBody TicketCreateRequest req) { ... }
+
+// ✅ GOOD
+@PostMapping("/api/v1/tickets")
+public ResponseEntity<TicketResponse> create(@Valid @RequestBody TicketCreateRequest req) {
+    var created = ticketService.create(req);
+    return ResponseEntity.created(URI.create("/api/v1/tickets/" + created.id())).body(created);
+}
+```
+
+## Errors (RFC 7807)
+
+- Every exception path returns Spring **`ProblemDetail`**.
+- Include `type`, `title`, `status`, `detail`; add `instance` and field errors when useful.
+- Validation → **400**. Business/state violations → **422**. Unknown id → **404**.
+
+```json
+{
+  "type": "https://api.example.com/problems/illegal-ticket-state",
+  "title": "Unprocessable Entity",
+  "status": 422,
+  "detail": "Cannot transition CLOSED to OPEN."
+}
+```
+
+## Contract
+
+- JSON: `camelCase`. Paths: plural nouns (`/api/v1/tickets`).
+- Do not break `/api/v1` in place; incompatible changes go to `/api/v2`.
+---

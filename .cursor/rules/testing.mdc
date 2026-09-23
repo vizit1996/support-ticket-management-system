@@ -1,0 +1,54 @@
+---
+description: JUnit 5, Mockito, MockMvc, parameterized state-machine tests
+globs: "**/*Test.java,**/*Tests.java,**/*IT.java,**/*.test.ts,**/*.test.tsx,**/*.spec.ts"
+alwaysApply: false
+---
+
+# Testing
+
+Backend tests use **JUnit 5**, **Mockito**, and Spring Boot **MockMvc**. Prefer slice tests over full `@SpringBootTest` unless a slice cannot prove the behavior.
+
+## Stack
+
+- **Unit:** JUnit 5 + Mockito (`@ExtendWith(MockitoExtension.class)`). Mock ports (repositories, collaborators), not the class under test.
+- **Web:** `@WebMvcTest` + `MockMvc` for controllers, status codes, and RFC 7807 bodies.
+- **Persistence:** `@DataJpaTest` with **H2**. Do not point slice tests at PostgreSQL.
+- **Frontend** (when present): colocate `*.test.ts(x)` / `*.spec.ts`. Do not re-test the HTTP contract MockMvc already covers.
+
+## Style
+
+- Names: `should_expectedBehavior_when_condition` or `@DisplayName`.
+- Assert status, JSON path, and ProblemDetail `title` / `status` on errors.
+- No `Thread.sleep`, no real network, no production secrets.
+
+```java
+// ❌ BAD
+@Test void testCreate() { service.create(req); }
+
+// ✅ GOOD
+@WebMvcTest(TicketController.class)
+class TicketControllerTest {
+    @Autowired MockMvc mvc;
+    @MockitoBean TicketService ticketService;
+
+    @Test
+    void should_return201_when_ticketCreated() throws Exception {
+        // mock service, POST /api/v1/tickets, expect 201 + Location
+    }
+}
+```
+
+## State machine (parameterized)
+
+Use **`@ParameterizedTest`** for legal and illegal ticket status transitions. One argument source for allowed transitions, one for rejected (expect domain exception / **422**). Do not copy a test per pair.
+
+```java
+@ParameterizedTest
+@CsvSource({ "OPEN, IN_PROGRESS", "IN_PROGRESS, RESOLVED", "RESOLVED, CLOSED" })
+void should_allow_transition(TicketStatus from, TicketStatus to) { ... }
+
+@ParameterizedTest
+@CsvSource({ "CLOSED, OPEN", "CANCELLED, IN_PROGRESS" })
+void should_reject_illegal_transition(TicketStatus from, TicketStatus to) { ... }
+```
+---

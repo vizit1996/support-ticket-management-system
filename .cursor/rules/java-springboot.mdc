@@ -1,0 +1,55 @@
+---
+description: Java 21 and Spring Boot 3 layers, records, ProblemDetail, JPA
+globs: "**/*.java,**/application*.yml,**/application*.yaml,**/pom.xml,**/build.gradle*"
+alwaysApply: false
+---
+
+# Java 21 / Spring Boot 3
+
+Steering only: follow these conventions when generating or editing backend code. Do not implement application features from this rule alone.
+
+## Language (Java 21)
+
+- Use **records**, **sealed classes/interfaces**, and **pattern matching** (`switch` / `instanceof`).
+- Prefer immutable types over mutable beans. Do not use Lombok `@Data` when a record or sealed hierarchy is enough.
+
+```java
+// ❌ BAD
+@Data public class TicketDto { private String id; private String status; }
+
+// ✅ GOOD
+public record TicketResponse(String id, TicketStatus status) {}
+
+public sealed interface TicketCommand permits CreateTicket, ChangeStatus {}
+```
+
+## Layered architecture
+
+Order of dependency: **Controller → Service → Repository → Domain**.
+
+| Layer | Allowed | Forbidden |
+| --- | --- | --- |
+| Controller | HTTP mapping, `@Valid`, status codes, map records | Business rules, JPA, entities as JSON |
+| Service | Use cases, `@Transactional`, domain invariants | `HttpServletRequest`, status codes, SQL |
+| Repository | Spring Data JPA interfaces | HTTP, DTO mapping, business rules |
+| Domain | Entities, value objects, status enums | Framework types leaking to API |
+
+Package by feature (`ticket/`, …) with these layers inside each feature. Constructor injection only.
+
+## Immutable DTOs
+
+- Request and response types are **Java records**.
+- Never return JPA entities from controllers.
+- Bean Validation on request records (`@Valid`, `@NotBlank`, `@Size`, …).
+
+## Errors
+
+- Map exceptions to **RFC 7807** `ProblemDetail` (`application/problem+json`) via `@ControllerAdvice`.
+- Do not return `{ "message": "..." }` or leak stack traces.
+
+## Persistence
+
+- **Spring Data JPA** + **PostgreSQL** for runtime / non-local profiles.
+- **H2** for tests and a local/dev profile only.
+- No hardcoded credentials; env / Spring config only.
+---
