@@ -1,4 +1,4 @@
-package com.supportticket.ticket.api;
+package com.supportticket.ticket.dto;
 
 import com.supportticket.ticket.domain.Priority;
 import jakarta.validation.constraints.NotBlank;

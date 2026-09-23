@@ -1,9 +1,9 @@
 package com.supportticket.ticket.service;
 
-import com.supportticket.ticket.api.CommentResponse;
-import com.supportticket.ticket.api.PageTicketSummary;
-import com.supportticket.ticket.api.TicketResponse;
-import com.supportticket.ticket.api.TicketSummary;
+import com.supportticket.ticket.dto.CommentResponse;
+import com.supportticket.ticket.dto.PageTicketSummary;
+import com.supportticket.ticket.dto.TicketResponse;
+import com.supportticket.ticket.dto.TicketSummary;
 import com.supportticket.ticket.domain.Comment;
 import com.supportticket.ticket.domain.Ticket;
 import org.springframework.data.domain.Page;

@@ -5,6 +5,9 @@ A spec-driven support ticket application with a Java 21 / Spring Boot 3 backend 
 ## Project layout
 
 - `backend/` — Spring Boot API, domain model, JPA persistence, and tests
+  - `ticket/controller/` — REST controllers and global HTTP exception handling
+  - `ticket/dto/` — immutable request and response records
+  - `ticket/service/`, `ticket/repository/`, `ticket/domain/` — application, persistence, and domain layers
 - `frontend/` — Next.js App Router UI and API proxy
 - `spec/` — functional requirements, state machine, API contract, and data model
 - `.cursor/rules/` — project coding and testing conventions

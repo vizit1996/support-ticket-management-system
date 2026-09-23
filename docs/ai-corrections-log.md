@@ -84,8 +84,8 @@ Make comment construction package-private/private and expose only `Ticket.addCom
 
 **Evidence**
 
-- `backend/src/main/java/com/supportticket/ticket/api/CreateTicketRequest.java:9-10`
-- `backend/src/main/java/com/supportticket/ticket/api/UpdateTicketRequest.java:12-13`
+- `backend/src/main/java/com/supportticket/ticket/dto/CreateTicketRequest.java:9-10`
+- `backend/src/main/java/com/supportticket/ticket/dto/UpdateTicketRequest.java:12-13`
 - `backend/src/main/java/com/supportticket/ticket/domain/Ticket.java:171-176`
 
 **Correction**
@@ -103,7 +103,7 @@ An invalid `status` query parameter maps to `invalid-status`, but an invalid enu
 
 **Evidence**
 
-- `backend/src/main/java/com/supportticket/ticket/web/GlobalExceptionHandler.java:114-138`
+- `backend/src/main/java/com/supportticket/ticket/controller/GlobalExceptionHandler.java:114-138`
 - `spec/api-contract.md`, problem type `invalid-status`
 - `spec/state-machine.md`, unknown status rule
 
@@ -122,7 +122,7 @@ Inspect the Jackson mapping failure path (or deserialize `TicketStatus` explicit
 
 **Evidence**
 
-- `backend/src/main/java/com/supportticket/ticket/api/UpdateTicketRequest.java:18-27`
+- `backend/src/main/java/com/supportticket/ticket/dto/UpdateTicketRequest.java:18-27`
 
 **Correction**
 

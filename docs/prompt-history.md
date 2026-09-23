@@ -198,3 +198,13 @@ The Java 21 SDKMAN pin, stale Kiro documentation, and secret-file ignore pattern
 - Disabled Next.js agent-rule generation and aligned `.sdkmanrc` with Java 21.
 - Expanded `.gitignore` for local environment files, keys, certificates, and keystores.
 - Retained ignored build/dependency directories because the running application and validation commands use them.
+
+## 11. Backend package naming
+
+**User goal:** Use package names that describe each backend layer directly.
+
+**Outcome**
+
+- Renamed `com.supportticket.ticket.api` to `com.supportticket.ticket.dto`.
+- Renamed `com.supportticket.ticket.web` to `com.supportticket.ticket.controller`.
+- Updated source directories, test packages, imports, and documentation references.

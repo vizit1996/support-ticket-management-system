@@ -1,4 +1,4 @@
-package com.supportticket.ticket.api;
+package com.supportticket.ticket.dto;
 
 import java.util.List;
 

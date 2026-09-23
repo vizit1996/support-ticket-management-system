@@ -1,4 +1,4 @@
-package com.supportticket.ticket.web;
+package com.supportticket.ticket.controller;
 
 import com.supportticket.ticket.domain.InvalidStateTransitionException;
 import com.supportticket.ticket.domain.ResourceNotFoundException;

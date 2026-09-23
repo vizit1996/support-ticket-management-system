@@ -1,4 +1,4 @@
-package com.supportticket.ticket.web;
+package com.supportticket.ticket.controller;
 
 import com.jayway.jsonpath.JsonPath;
 import com.supportticket.ticket.domain.TicketStatus;

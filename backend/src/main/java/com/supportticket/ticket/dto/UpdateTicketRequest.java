@@ -1,4 +1,4 @@
-package com.supportticket.ticket.api;
+package com.supportticket.ticket.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;

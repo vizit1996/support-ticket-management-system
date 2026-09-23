@@ -1,12 +1,12 @@
-package com.supportticket.ticket.web;
+package com.supportticket.ticket.controller;
 
-import com.supportticket.ticket.api.AddCommentRequest;
-import com.supportticket.ticket.api.CommentResponse;
-import com.supportticket.ticket.api.CreateTicketRequest;
-import com.supportticket.ticket.api.PageTicketSummary;
-import com.supportticket.ticket.api.TicketResponse;
-import com.supportticket.ticket.api.UpdateStatusRequest;
-import com.supportticket.ticket.api.UpdateTicketRequest;
+import com.supportticket.ticket.dto.AddCommentRequest;
+import com.supportticket.ticket.dto.CommentResponse;
+import com.supportticket.ticket.dto.CreateTicketRequest;
+import com.supportticket.ticket.dto.PageTicketSummary;
+import com.supportticket.ticket.dto.TicketResponse;
+import com.supportticket.ticket.dto.UpdateStatusRequest;
+import com.supportticket.ticket.dto.UpdateTicketRequest;
 import com.supportticket.ticket.domain.TicketStatus;
 import com.supportticket.ticket.service.TicketService;
 import jakarta.validation.Valid;

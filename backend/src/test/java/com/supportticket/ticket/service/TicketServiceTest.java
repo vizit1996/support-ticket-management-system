@@ -1,9 +1,9 @@
 package com.supportticket.ticket.service;
 
-import com.supportticket.ticket.api.AddCommentRequest;
-import com.supportticket.ticket.api.CreateTicketRequest;
-import com.supportticket.ticket.api.PageTicketSummary;
-import com.supportticket.ticket.api.UpdateTicketRequest;
+import com.supportticket.ticket.dto.AddCommentRequest;
+import com.supportticket.ticket.dto.CreateTicketRequest;
+import com.supportticket.ticket.dto.PageTicketSummary;
+import com.supportticket.ticket.dto.UpdateTicketRequest;
 import com.supportticket.ticket.domain.InvalidRequestException;
 import com.supportticket.ticket.domain.InvalidStateTransitionException;
 import com.supportticket.ticket.domain.Priority;
